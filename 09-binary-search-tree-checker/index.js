@@ -49,7 +49,6 @@ function isBinarySearchTree(treeRoot, lowerBound, upperBound) {
   return isBinarySearchTree(treeRoot.left, lowerBound, treeRoot.value) &&
     isBinarySearchTree(treeRoot.right, treeRoot.value, upperBound)
 
-}
 
 /// COMPLEXITY:
 // O(n) time and O(n) space 
