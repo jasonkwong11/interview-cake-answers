@@ -57,8 +57,33 @@ WordCloudData.prototype.addWordToMap = function(word) {
   if (this.wordToCounts.has(word)) {
     newCount = this.wordToCounts.get(word) + 1;
     this.wordToCounts.set(word, newCount);
-  }
-
   // if a lowercase version is in the map, we know our input
+  // but we only include uppercase words if they're always
+  // uppercase so we just increment the lowecase version's count
+  } else if (this.wordToCounts.has(word.toLowerCase())) {
+    newCount = this.wordToCounts.get(word.toLowerCase()) + 1;
+    this.wordToCounts.set(word.toLowerCase(), newCount);
+
+  // if an uppercase version is in the map, we know our input
+  // word must be lowercase. since we only include uppercase
+  // words if they're always uppercase, we add the lowercase
+  // version and give it the uppercase version's count:
+  } else (this.wordToCounts.has(this.capitalize(word))) {
+    newCount = this.wordToCounts.get(this.capitalize(word)) + 1;
+    this.wordToCounts.set(word, newCount);
+    this.wordToCounts.delete(this.capitalize(word));
+
+    //otherwise the word is not in the map at all,
+    // lowercase or uppercase so we add it to the map
+  } else {
+    this.wordToCounts.set(word, 1);
+  }
+};
+
+WordCloudData.prototype.capitalize = function(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+WordCloudData.prototype.isLetter = function(character) {
+  return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(character) >= 0;
+}
