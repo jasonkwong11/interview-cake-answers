@@ -87,3 +87,11 @@ WordCloudData.prototype.capitalize = function(word) {
 WordCloudData.prototype.isLetter = function(character) {
   return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(character) >= 0;
 }
+
+// COMPLEXITY: runtime and memory cost are both O(n)
+// this is the best we can do because we have to look at
+// every character in the input string and have to return a
+// map of every unique word. We optimized to only make one
+// pass over our input and have only one O(n) data structure
+
+
