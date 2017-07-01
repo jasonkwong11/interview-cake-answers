@@ -1,26 +1,23 @@
+function isSingleRiffle(half1, half2, shuffledDeck) {
+  var half1Index = 0;
+  var half2Index = 0;
+  var half1MaxIndex = half1.length - 1;
+  var half2MaxIndex = half2.length - 1;
 
-function isSingleRiffle(half1, half2, shuffledDeck, shuffledDeckIndex, half1Index, half2Index) {
-  shuffledDeckIndex = (typeof shuffledDeckIndex !== 'undefined' ? shuffledDeckIndex : 0);
-  half1Index = (typeof half1Index !== 'undefined') ? half1Index : 0;
-  half2Index = (typeof half2Index !== 'undefined') ? half2Index : 0;
+  for (var i = 0; i < shuffledDeck.length; i++) {
+    var card = shuffledDeck[i]
 
-  // base case we've hit the end of shuffledDeck
-  if(shuffledDeckIndex === shuffledDeck.length) {
-    return true;
+    if (half1Index <= half1MaxIndex &&
+        half1[half1Index] === card) {
+      half1Index++;
+    } else if (half2Index <= half2MaxIndex &&
+        half2[half2Index] === card) {
+      half2Index++;
+    } else {
+      return false
+    }
   }
-
-  // if we still have cards in half1
-  // and the top card of half1 is the same
-  // as the top card of shuffledDeck
-  if ((half1Index < half1.length) &&
-      (half1[half1Index] === shuffledDeck[shuffledDeckIndex])) {
-    half1Index++;
-  } else if ((half2Index < half2.length) && 
-    (half2[half2Index] === shuffledDeck[shuffledDeckIndex])){
-    half2Index++;
-  } else {
-    return false;
-  }
-  shuffledDeckIndex++;
-  return isSingleRiffle(half1, half2, shuffledDeck, shuffledDeckIndex, half1Index, half2Index);
+  return true
 }
+
+//Complexity: O(n) time and O(1) space
