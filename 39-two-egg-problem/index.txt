@@ -1,0 +1,89 @@
+Question: 
+
+A building has 100 floors. 
+One of the floors is the highest 
+floor an egg can be dropped from 
+without breaking.
+
+
+If an egg is dropped from above that floor, it will break. If it is dropped from that floor or below, it will be completely undamaged and you can drop the egg again.
+
+Given two eggs, find the highest floor an egg can be dropped from without breaking with as few drops as possible
+
+Gotchas:
+  - We can do better than a binary approach which would have a worst case of 50 drops.
+  - We can even do better than 19 drops.
+  - We can always find the highest floor an egg can be dropped from with a worst case of 14 total drops.
+
+Breakdown:
+  -Since we have two eggs, we can skip multip floors at a time until the first egg breaks, keeping track of which floors we dropped it from. Once that egg breaks we can use the second egg to try every floor, starting on the last floor where the egg didn't break and ending on the floor below the one where it did break.
+
+How should we choose how many floors to skip with the first egg?
+  - First thought might be a binary approach: we could drop the first egg halfway up the building at the 50th floor. If the egg doesn't break, we can try the 75th floor next. We keep going like this, dividng the problem in half at each step.
+
+How can we keep the worst case number of drops from increasing each time the first egg doesn't break?
+
+  - Since the maximum number of drops increases by one each time we skip the same amount of floors, we could skip one fewer floor each time we drop the first egg!
+
+But how do we choose how many floors to skip the first time?
+ - Well we know two things that can help us:
+    1. We want to skip as few floors as possible the first time we drop an egg, so if our first egg breaks right away we don't have a lot of floors to drop our second egg from.
+    
+    2. We always want to be able to reduce the number of floors we're skipping by one. We don't want to get towards the top and not be able to skip any floors any more.
+
+
+To be able to decrease the number of floors we skip by one every time we move up, and to minimize the number of floors we skip the first time, WE WANT TO END UP SKIPPING JUST ONE FLOOR AT THE VERY TOP.
+  ... here's the equation that models this:
+
+  n + (n - 1) + (n - 2) + ... + 1 = 100
+
+How can we solve for n? Notice that we're summing every number from 1 to n.
+
+The left side is a triangular series. It reduces to (n^2 + n)/2. so...
+
+(n^2 + n)/2 = 100
+
+rearranges into a quadratic equation:
+
+n^2 + n - 200 = 0
+
+Remember solve it using:
+
+(-b (+ -) sqRt((b^2) - 4ac))/2a
+
+==> answer = 13.65
+
+.. round up to 14 to be safe
+
+SOLUTION:
+
+First drop on the 14th floor.
+Second drop on the 27th floor. (14 + (14-1))
+Third drop on 39th floor. (14 + 13 + 12)
+
+
+For example: Highest floor an egg won't 
+break from:
+13
+
+Floors we drop first egg from:
+14
+
+Floors we drop second egg from:
+1, 2, 3, 4, 5, 6, ,7 ,8 ,9 10, 11, 12, 13
+
+Total number of drops:
+14 (13 with second egg, 1 with first egg)
+
+Example2:
+Highest floor an egg wont break from:
+98
+
+Floors we drop first egg from:
+14, 27, 39, 50, 60, 69, 77, 84, 90, 95, 99
+
+Floors we drop second egg from:
+96, 97, 98
+
+Total number of drops:
+14 (3 with second egg, 11 with first)
