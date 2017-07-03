@@ -645,6 +645,127 @@ function generateRandomSlug() {
   return slug;
 }
 
+// Ok this'll work. What's next? Let's look back at hour design goals:
+/*
+  1. we should be able to store a lot of links.
+  2. Our shortlinks should be as short as possible.
+  3. Following a shortlink should be fast.
+  4. The shortlink follower should be resilient to load spikes.
+
+We're all set on 1 and 2! Let's start tacking 3 and 4. How do we 
+scale our link follower to be fast and resilient to load spikes?
+
+**NOTE: beware of premature optimization! that always looks bad.
+dont just jump around random ideas for optimizations. 
+
+****Instead, focus on asking yourself which thing is likely to
+bottleneck first and optimizing around that!!
+
+The database read to get the destination for the given slug
+is certainly going to be our first bottleneck. In general,
+database operations usually bottleneck before business logic.
+
+To figure out how to get these reads nice and fast, we should
+get specific about how we're storing our shortlinks. To start,
+what kind of database should we use?
+
+Database choice is a very broad issue: and it's a contentious one. There's
+a lot of different opinions on how to approach this.
+
+Looking at our app, it seems like relational queries aren't likely to be a
+big part of our app's functionality, even if we added a few of the obvious
+next features we might want. So let's go with NoSQL for this.
+
+Which NoSQL database should we use? Lots of options, each with their own pros
+and cons. Lets keep our discussion and pseudocode generic for now.
+
+We might consider adding an abstraction layer between our application and
+the database, so that we can change over to a new one if our needs change
+
+Okay, so we have our data in a NoSQL -type database. How do we unbottleneck
+database reads.
+
+The first step is to make sure we're indexing the right way. In a NoSQL context,
+that means carefully designing our keys. In this case, the obvious choice is right:
+making the key for each row in the ShortLink table be the slug.
+
+If we used a SQL type database like MYSQL or Postgres, we usually default to having our
+key field be a standard auto-incrementing integer called "id" or "index". But in this case
+because we know that slugs will be unique, there's no need for an integer id -- the slug
+is enough of a unique identifier.
+
+But here's where it get's clever: what if we represented the slug as an autoincrementing 
+integer field? We'd just have to used our base conversion to convert them to slugs! This 
+would give us tracking of our global currentRandomSlugId for free -- MySQL would keep 
+track of the highest current id in the table when it auto increments. Careful though:
+user-generated slugs throw a pretty huge moneky wrench with this strategy! How can you
+maintain uniqueness across user-generated and randomely-generated slugs without
+breaking the auto-incrementing ids for randomly-generated slugs?
+
+... HOw else can we speed up database reads?
+
+We could put as much of the data in memory as possible, to avoid disc seeks.
+
+This becomes especially important when we start getting a heavy load of requests
+to a single link, like if one of our links is on the front page of Reddit.
+  ... If we have a redirect URL right there in memory, we can process those redirects
+  quickly..
+
+
+Depending on the DB we use, it might already have an in-memory cache system. To get
+more links in memory, we may be able to configure our db to use more space for it's 
+cache.
+
+If reads are still slow, we could research adding a caching layer, like memcached.
+Importantly, this might not save us time on reads, if the cache on the database is
+already pretty robust. It adds complexity - we now have two sources of truth,
+and we need to be careful to keep the in sync. For example, if we let users 
+edit their links, we need to push those edits ot both the database and the cache.
+It could also slow down reads if we have lots of cache misses.
+
+If we did add a caching layer, there are a few things we could talk about:
+  1. the eviction strategy. If the cache is full, what do we remove to make
+  space? The most common answer is an LRU ('least recently used') strategy
+
+  2. Sharding strategy. Sharding our cache lets us store more stuff in memory,
+  because we can use more machines. But how do we decide which things go on
+  which shard? 
+
+  The common answer is a "Hash and mod strategy" - hash the key,
+  mod the result by the number of shards, and you get a shard number to send 
+  your request to. But then how do you add or remove a shard without causing
+  an ummanageable spike in cache misses?
+
+  Of course, we could shard our underlying database instead of, or in addition to 
+  caching. If the database has a built-in in-memory cache, sharding the data
+  would allow us to keep more of our data in working memory without an 
+  additional caching layer!
+
+  Database sharding has some of the same challenges as cache sharding. Adding
+  and removing shards can be painful, as can migrating the schema without site
+  downtime. That said, some NoSQL databases have great sharding systems built
+  right in like Cassandra.
+
+  This should get our database reads nice and fast.
+
+  The next bottleneck might be processing the actual web requests. 
+  To remedy this, we should set up multiple webserver workers. We can
+  put them all behind a load balancer that distributes incoming requests
+  across the workers. Having multiple web servers adds some complexity
+  to our database( and caching layers) that we'll need to consider.
+
+  They'll need to handle more simultaneous connections for example. 
+  Most dbs are pretty good at this by default. 
+
+  Ok, now our redirects should go pretty quick, and should be resilient to
+  load spikes. WE have a solid system that fits all of our design goals!
+
+  1. WE can store a lot of links.
+  2. Our shortlinks are as short as possible.
+  3. Following a shortlink is fast
+  4. The shortlink follower is resilient to load spikes.
+*/
+
 
 
 
