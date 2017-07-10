@@ -5,25 +5,30 @@
   2. the product of all the integers after each index  
 */
 
+let array =   [1, 7, 3, 4];
+
 function getProductsOfAllIntsExceptAtIndex(array) {
   //check to make sure array has enough elements to have a product
   if (array.length < 2){ throw new Error("Must include at least 2 elements")}
 
-  let productsOfAllIntsExceptAtIndex = [];
+  let products = [];
   let productSoFar = 1;
 
   for (let i = 0; i < array.length; i++) {
-    productsOfAllIntsExceptAtIndex[i] = productSoFar;
+    products[i] = productSoFar;
     productSoFar *= array[i];
   }
 
   productSoFar = 1;
 
   for (let j = array.length - 1; j >= 0; j--) {
-    productsOfAllIntsExceptAtIndex[j] *= productSoFar;
+    products[j] *= productSoFar;
     productSoFar *= array[j];
   }
-  return productsOfAllIntsExceptAtIndex;
+  return products;
 } 
 
+console.log(getProductsOfAllIntsExceptAtIndex(array))
 module.exports = getProductsOfAllIntsExceptAtIndex;
+
+
