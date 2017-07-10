@@ -11,12 +11,11 @@
 // highestProductOf3. We'll go with this one
 
 function highestProductOf3(array) {
-
   //check that array has at least 3 elements
   if (array.length < 3) {throw new Error('Less than 3 items!')}
 
   // start at the 3rd item (index 2)
-  //so pre-populate highest and lowest based on
+  // so pre-populate highest and lowest based on
   // the first 2 items
 
   let highest = Math.max(array[0], array[1]);
