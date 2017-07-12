@@ -1,6 +1,5 @@
 let array =   [1, 7, 3, 4];
 
-
 function getProductsOfAllIntsExceptAtIndex(array) {
 
   if (array.length < 2) {throw new Error('Must be at least 2 elements')}
@@ -19,7 +18,10 @@ function getProductsOfAllIntsExceptAtIndex(array) {
     products[j] *= productSoFar;
     productSoFar *= array[j];
   }
-  return products
+  return products;
 }
 
 console.log(getProductsOfAllIntsExceptAtIndex(array))
+
+// Time Complexity:
+// Space Complexity:
