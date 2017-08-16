@@ -1,4 +1,3 @@
-
 function getMaxProfit(stockPricesYesterday) {
 
   //check edge case: make sure there's at least 2 prices

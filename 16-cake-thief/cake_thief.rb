@@ -8,7 +8,7 @@ def max_duffel_bag_value(cake_arrays, weight_capacity)
     current_max_value = 0
 
     cake_arrays.each do |cake_weight, cake_value|
-      #if a cake weighs 0 and has a positive value the
+      # if a cake weighs 0 and has a positive value the
       # our duffel bag is infinite
 
       if (cake_weight == 0 && cake_value != 0)
@@ -32,3 +32,10 @@ def max_duffel_bag_value(cake_arrays, weight_capacity)
   end
   return max_values_at_capacities[weight_capacity]
 end
+
+cake_arrays = [[7, 160], [3, 90], [2, 15]]
+weight_capacity = 20
+
+max_duffel_bag_value(cake_arrays, weight_capacity)
+
+
