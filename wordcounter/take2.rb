@@ -4,9 +4,9 @@
 
 def word_counter(file)
   file = File.read(file)
-  word_arr = file.split(' ').collect {|word| word.upcase.gsub(/\W+/, '')}
+  words_arr = file.split(' ').collect {|word| word.downcase.gsub(/\W+/, '') }
   hash_counter = {}
-  word_arr.each do |word|
+  words_arr.each do |word|
     !hash_counter[word] ? hash_counter[word] = 1 : hash_counter[word] += 1
   end
   hash_counter.sort_by {|word, count| count }.reverse.each do |word, count|
@@ -15,3 +15,4 @@ def word_counter(file)
 end
 
 word_counter("input.txt")
+
