@@ -9,7 +9,7 @@ def word_counter(file)
   word_arr.each do |word|
     !hash_counter[word] ? hash_counter[word] = 1 : hash_counter[word] += 1
   end
-  hash_counter.sort_by { |word, count| v }.reverse.each do |word, count|
+  hash_counter.sort_by {|word, count| v }.reverse.each do |word, count|
     puts "#{word}: #{count}"
   end
 end
