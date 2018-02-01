@@ -7,7 +7,7 @@ function getMaxProfit(stockPricesYesterday) {
     throw new Error("You need at least 2 prices")
   }
   // initialize a currentMin
-  // initialize a currentMax
+  // initialize a current maxProfit
 
   // iterate through the stockPrices
     // for each price, check to see if the 
