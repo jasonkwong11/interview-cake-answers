@@ -9,6 +9,8 @@ function getMaxProfit(stockPricesYesterday) {
   // initialize a currentMin
   // initialize a current maxProfit
 
+word.split(/[\s,']/)
+
   // iterate through the stockPrices
     // for each price, check to see if the 
     // current price would yield a new Max
