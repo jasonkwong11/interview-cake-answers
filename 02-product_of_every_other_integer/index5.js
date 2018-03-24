@@ -97,17 +97,19 @@ var productsOfAllIntsBeforeIndex = [];
 // before it, storing the total product so far each time
 
 var productSoFar = 1;
+
 for (var i = 0; i < intArray.length; i++){
     productsOfAllIntsBeforeIndex[i] = productSoFar;
     productSoFar *= intArray[i];
-    
 }
 
 
 /*
-So we solved the subproblem of finding the products of all the integers before each index. Now, how can we find the products of all the integers after each index?
+So we solved the subproblem of finding the products of all the integers before each index. 
+Now, how can we find the products of all the integers after each index?
 
-It might be tempting to make a new array of all the values in our input array in reverse, and just use the same function we used to find the products before each index.
+It might be tempting to make a new array of all the values in our input array in reverse, 
+and just use the same function we used to find the products before each index.
 
 Is this the best way?
 
@@ -122,7 +124,6 @@ each index?
 YES, we can just walk through our array backwards! So instead of
 reversing the values of the array, we'll just reverse the indicies
 we use to iterate!
-
 */
 
 var productsOfAllIntsAfterIndex = [];
@@ -181,7 +182,7 @@ product we would have stored and multiply it by the matching
 integer in productsOfAllIntsBeforeIndex!
 
 So in our example above, when we calculated our first(well 0th)
-product after index (whcih is 40), we'd just multiply it
+product after index (which is 40), we'd just multiply it
 instead of staring it a new array
 
 Now we just need one array.
@@ -193,14 +194,18 @@ only has one integer?
 We'll be fine with zeros. What if the input array has fewer than
 two integers?... there won't be any products to return 
 because at any index there are no other integers, so lets
- throw an exception
+throw an exception
  
- SOLUTION
- 
- To find the products of all the integers except the integer at each index, we'll go through our array greedily ↴ twice. First we get the products of all the integers before each index, and then we go backwards to get the products of all the integers after each index.
+SOLUTION
 
-When we multiply all the products before and after each index, we get our answer—the products of all the integers except the integer at each index!
+To find the products of all the integers except the integer at each index,
+we'll go through our array greedily twice. 
+First we get the products of all the integers before each index, 
+and then we go backwards to get the products of all the integers after each index.
 
+When we multiply all the products before and after each index, 
+we get our answer—the products of all the integers except the 
+integer at each index!
 
 */
 
