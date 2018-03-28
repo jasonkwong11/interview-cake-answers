@@ -156,7 +156,7 @@ we throw the current meeting into mergedMeetings.
 */
 
 function mergeRanges(meetings) {
-  //create a deep copy of the meetings array
+  // create a deep copy of the meetings array
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Deep_Clone
   
   var meetingsCopy = JSON.parse(JSON.stringify(meetings));
