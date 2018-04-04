@@ -14,7 +14,7 @@ or Facebook or Obama or something.
 Write a function to find the rectangular intersection of 
 two given love rectangles.
 
-As with the example above, love rectangles ae always "straight"
+As with the example above, love rectangles are always "straight"
 and never "diagonal". More rigorously: each side is parallel
 with either the x-axis or the y-axis.
 
@@ -56,19 +56,19 @@ There are four relevant cases:
 
 1.) The ranges partially overlap:
 ----
-      ----
+  ----
 
 2.) One range is completely contained in the other:
----
+    ---
    ------
 
 3. The ranges don't overlap:
 ----
-----
+      ----
 
 4. the ranges touch a single point:
 ---
-----
+   ----
 
 Let's start with the first 2 cases. How do we compute the
 overlapping range?
@@ -116,13 +116,13 @@ Here's one way to do it:
 */
 
 function findXOverlap(x1, width1, x2, width2) {
-//find the highest ("rightmost") start point and lowest ("leftmost") endpoint
-var highestStartPoint = Math.max(x1, x2);
-var lowestEndPoint = Math.min(x1 + width1, x2 + width2)
+  //find the highest ("rightmost") start point and lowest ("leftmost") endpoint
+  var highestStartPoint = Math.max(x1, x2);
+  var lowestEndPoint = Math.min(x1 + width1, x2 + width2)
 
-//return null overlap if there is no overlap
-if (highestStartPoint >= lowestEndPoint) {
-return {startPoint: null, width: null};
+  //return null overlap if there is no overlap
+  if (highestStartPoint >= lowestEndPoint) {
+  return {startPoint: null, width: null};
 }
 
 //compute the overlap width
@@ -149,17 +149,17 @@ point of the overlap.
 the lowest end point is the end point of the overlap.
 */
 
-var highestStartPoint = Math.max(point1, point2);
-var lowestEndPoint = Math.min(point1 + length1, point2 + length2);
+  var highestStartPoint = Math.max(point1, point2);
+  var lowestEndPoint = Math.min(point1 + length1, point2 + length2);
 
-//return null overlap if there is no overlap
-if (highestStartPoint >= lowestEndPoint) {
-return {startPoint: null, overlapLength: null};
-}
+  //return null overlap if there is no overlap
+  if (highestStartPoint >= lowestEndPoint) {
+    return {startPoint: null, overlapLength: null};
+  }
 
-//compute the overlap length
-var overlapLength = lowestEndPoint - highestStartPoint;
-return {startPoint: highestStartPoint, overlapLength: overlapLength}
+  //compute the overlap length
+  var overlapLength = lowestEndPoint - highestStartPoint;
+  return {startPoint: highestStartPoint, overlapLength: overlapLength}
 }
 /*
 
@@ -183,26 +183,26 @@ rectangular overlap:
 
 
 function findRectangularOverlap(rect1, rect2) {
-//get the x and y overlap points and lengths
-var xOverlap = findRangeOverlap(rect1.leftx, rect1.width, rect2.leftx, rect2.width);
-var yOverlap = findRangeOverlap(rect1.bottomY, rect1.height, rect2.bottomY, rect2.height);
+  //get the x and y overlap points and lengths
+  var xOverlap = findRangeOverlap(rect1.leftx, rect1.width, rect2.leftx, rect2.width);
+  var yOverlap = findRangeOverlap(rect1.bottomY, rect1.height, rect2.bottomY, rect2.height);
 
-//return null rectangle if there is no overlap
-if(!xOverlap.overlapLength || !yOverlap.overlapLength) {
-return {
-leftX: null,
-bottomY: null,
-width: null,
-height: null,
-}
-};
+  //return null rectangle if there is no overlap
+  if(!xOverlap.overlapLength || !yOverlap.overlapLength) {
+    return {
+      leftX: null,
+      bottomY: null,
+      width: null,
+      height: null,
+    }
+  };
 
-return {
-leftX: xOverlap.startPoint,
-bottomY: yOverlap.startPoint,
-width: xOverlap.overlapLength,
-height: yOverlap.overlapLength,
-}
+  return {
+    leftX: xOverlap.startPoint,
+    bottomY: yOverlap.startPoint,
+    width: xOverlap.overlapLength,
+    height: yOverlap.overlapLength,
+  }
 }
 
 /*COMPLEXITY
